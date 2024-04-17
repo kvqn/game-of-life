@@ -1,37 +1,96 @@
-import Link from "next/link";
+"use client"
 
+import { useEffect, useRef, useState } from "react"
+import { cn } from "~/lib/utils"
+
+function copyArray(arr: number[][]) {
+  return arr.map((row) => row.slice())
+}
 export default function HomePage() {
+  const nRows = 100
+  const nCols = 100
+  const [grid, setGrid] = useState<number[][]>(
+    new Array(nRows).fill(new Array(nCols).fill(0)),
+  )
+
+  const [xOffset, setXOffset] = useState(0)
+  const [yOffset, setYOffset] = useState(0)
+  const draggingData = useRef({
+    dragging: false,
+    startClientX: 0,
+    startClientY: 0,
+    startOffsetX: 0,
+    startOffsetY: 0,
+  })
+
+  const [transformOrigin, setTransformOrigin] = useState([0, 0])
+
+  const [scale, setScale] = useState(1)
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
-        </div>
+    <div>
+      <div
+        className="fixed flex flex-col gap-1 transition-all duration-200"
+        onMouseDown={(e) => {
+          console.log("drag start")
+          draggingData.current = {
+            dragging: true,
+            startClientX: e.clientX,
+            startClientY: e.clientY,
+            startOffsetX: xOffset,
+            startOffsetY: yOffset,
+          }
+        }}
+        onMouseUp={(e) => {
+          draggingData.current.dragging = false
+        }}
+        onMouseMove={(e) => {
+          if (draggingData.current.dragging) {
+            setXOffset(
+              draggingData.current.startOffsetX +
+                e.clientX -
+                draggingData.current.startClientX,
+            )
+            setYOffset(
+              draggingData.current.startOffsetY +
+                e.clientY -
+                draggingData.current.startClientY,
+            )
+            console.log(xOffset, yOffset)
+          }
+        }}
+        style={{
+          top: yOffset,
+          left: xOffset,
+          scale: scale,
+          transformOrigin: `${transformOrigin[0]}px ${transformOrigin[1]}px`,
+        }}
+        onWheel={(e) => {
+          console.log(e.deltaY)
+          setScale((prevScale) => prevScale - e.deltaY / 1000)
+          setTransformOrigin([e.clientX, e.clientY])
+        }}
+      >
+        {grid.map((row, r) => (
+          <div className="flex gap-1" key={r}>
+            {row.map((cell, c) => (
+              <div
+                key={c}
+                className={cn("h-6 w-6 border bg-gray-50", {
+                  "bg-gray-400": cell === 1,
+                })}
+                onClick={() => {
+                  setGrid((prevGrid) => {
+                    const newGrid = copyArray(prevGrid)
+                    newGrid[r]![c] = 1 - newGrid[r]![c]!
+                    return newGrid
+                  })
+                }}
+              />
+            ))}
+          </div>
+        ))}
       </div>
-    </main>
-  );
+    </div>
+  )
 }
