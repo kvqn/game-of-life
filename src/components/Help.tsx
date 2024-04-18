@@ -58,7 +58,7 @@ export function Help() {
   return (
     <>
       <PlaybackStatus />
-      <div className="fixed bottom-0 right-0 flex items-center font-geist text-xl font-semibold">
+      <div className="fixed bottom-0 left-0 flex items-center font-geist text-xl font-semibold">
         Help
         <Image src={keys.questionLight} width={50} height={50} alt="?" />
       </div>
@@ -71,30 +71,37 @@ function PlaybackStatus() {
   const { playbackState, setPlaybackState, playbackRef } = useGameContext()
 
   return (
-    <button
-      className={cn(
-        "fixed bottom-2 left-2 flex w-36 items-center justify-evenly gap-2 rounded-md border border-black p-2 text-xl font-bold shadow-md transition-colors duration-500",
-        {
-          "bg-red-300": !playbackState,
-          "bg-green-300": playbackState,
-        },
-      )}
-      onClick={() => {
-        setPlaybackState(!playbackState)
-        playbackRef.current = !playbackState
-      }}
-    >
-      {playbackState ? (
-        <>
-          <IoPlay />
-          Playing
-        </>
-      ) : (
-        <>
-          <IoPause />
+    <>
+      <div className="fixed bottom-2 right-2 flex items-center gap-2">
+        <p
+          className={cn("text-xl opacity-0 transition-opacity lg:opacity-0", {
+            "opacity-100": !playbackState,
+          })}
+        >
           Paused
-        </>
-      )}
-    </button>
+        </p>
+        <div
+          className={cn(
+            "rounded-md border border-black bg-gray-100 p-2 text-xl shadow-md transition-colors hover:bg-gray-200",
+          )}
+          onClick={() => {
+            setPlaybackState(!playbackState)
+            playbackRef.current = !playbackState
+          }}
+        >
+          {playbackState ? <IoPlay /> : <IoPause />}
+        </div>
+      </div>
+      <div
+        className={cn(
+          "fixed bottom-2 left-1/2 -translate-x-1/2 text-xl opacity-0 transition-opacity",
+          {
+            "lg:opacity-100": !playbackState,
+          },
+        )}
+      >
+        Press space to resume playback
+      </div>
+    </>
   )
 }
