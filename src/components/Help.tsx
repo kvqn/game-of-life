@@ -1,10 +1,12 @@
 "use client"
 
-import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
+import { BiPause } from "react-icons/bi"
+import { FaPlay } from "react-icons/fa"
+import { IoPause, IoPlay } from "react-icons/io5"
 import { useGameContext } from "~/contexts/gameContext"
 import { keys } from "~/lib/assets"
+import { cn } from "~/lib/utils"
 
 function Keybinds() {
   return (
@@ -72,7 +74,13 @@ function PlaybackStatus() {
 
   return (
     <button
-      className="fixed bottom-0 left-0 flex items-center gap-2 p-2 text-xl font-bold"
+      className={cn(
+        "fixed bottom-2 left-2 flex w-36 items-center justify-evenly gap-2 rounded-md border border-black p-2 text-xl font-bold shadow-md transition-colors duration-500",
+        {
+          "bg-red-300": !playbackState,
+          "bg-green-300": playbackState,
+        },
+      )}
       onClick={() => {
         setPlaybackState(!playbackState)
         playbackRef.current = !playbackState
@@ -80,12 +88,12 @@ function PlaybackStatus() {
     >
       {playbackState ? (
         <>
-          <FontAwesomeIcon icon={faPlay} />
+          <IoPlay />
           Playing
         </>
       ) : (
         <>
-          <FontAwesomeIcon icon={faPause} />
+          <IoPause />
           Paused
         </>
       )}
