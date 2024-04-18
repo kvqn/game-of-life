@@ -24,7 +24,6 @@ export function Settings() {
     setPlaybackState(false)
     setGrid(blankGrid())
     setGeneration(0)
-    backToDefaults()
   }
 
   function backToDefaults() {

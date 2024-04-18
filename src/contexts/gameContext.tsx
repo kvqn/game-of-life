@@ -9,8 +9,8 @@ import {
   useRef,
 } from "react"
 
-const nRows = 100
-const nCols = 100
+const nRows = 50
+const nCols = 50
 
 export function blankGrid() {
   const grid = new Array(nRows).fill(new Array(nCols).fill(0)) as number[][]
