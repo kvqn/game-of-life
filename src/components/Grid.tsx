@@ -24,7 +24,7 @@ export function Grid() {
 
   return (
     <DraggableZoomable>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 bg-white p-4">
         {grid.map((row, r) => (
           <div className="flex gap-1" key={r}>
             {row.map((cell, c) => (
