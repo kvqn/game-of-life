@@ -2,13 +2,13 @@
 
 import { useGesture } from "@use-gesture/react"
 import { useRef, useState } from "react"
+import { useGameContext } from "~/contexts/gameContext"
 
 function numInBounds(min: number, max: number, num: number) {
   return Math.min(Math.max(min, num), max)
 }
 
 export function DraggableZoomable({ children }: { children: React.ReactNode }) {
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
   const draggingData = useRef({
     dragging: false,
     startClientX: 0,
@@ -20,7 +20,7 @@ export function DraggableZoomable({ children }: { children: React.ReactNode }) {
   const dragging = useRef(false)
 
   const [transformOrigin, setTransformOrigin] = useState([0, 0])
-  const [scale, setScale] = useState(1)
+  const { scale, setScale, offset, setOffset } = useGameContext()
 
   const binds = useGesture(
     {
@@ -72,10 +72,10 @@ export function DraggableZoomable({ children }: { children: React.ReactNode }) {
   )
   return (
     <div
-      className=""
+      className="fixed left-1/2 top-1/2"
       {...binds()}
       style={{
-        transform: `translate(${offset.x}px, ${offset.y}px)`,
+        transform: `translate(-50%, -50%) translate(${offset.x}px, ${offset.y}px)`,
         scale: scale,
         transformOrigin: `${transformOrigin[0]}px ${transformOrigin[1]}px`,
         touchAction: "none",

@@ -1,26 +1,18 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useGameContext } from "~/contexts/gameContext"
 import { cn, sleep } from "~/lib/utils"
 import { DraggableZoomable } from "./DraggableZoomable"
 
-const nRows = 100
-const nCols = 100
-
 export function Grid() {
-  const [grid, setGrid] = useState<number[][]>(
-    new Array(nRows).fill(new Array(nCols).fill(0)),
-  )
-
-  const { playbackRef } = useGameContext()
-
-  const { setGeneration } = useGameContext()
+  const { playbackRef, setGeneration, grid, setGrid, generationGap } =
+    useGameContext()
 
   useEffect(() => {
     console.log("test")
     async function loop() {
       while (true) {
-        await sleep(1000)
+        await sleep(generationGap.current)
         if (playbackRef.current) {
           setGrid((prev) => nextGridState(prev))
           setGeneration((prev) => prev + 1)
@@ -31,31 +23,29 @@ export function Grid() {
   }, [])
 
   return (
-    <div className="fixed">
-      <DraggableZoomable>
-        <div className="flex flex-col gap-1">
-          {grid.map((row, r) => (
-            <div className="flex gap-1" key={r}>
-              {row.map((cell, c) => (
-                <div
-                  key={c}
-                  className={cn("h-6 w-6 border bg-gray-50", {
-                    "bg-gray-400": cell === 1,
-                  })}
-                  onClick={() => {
-                    setGrid((prevGrid) => {
-                      const newGrid = copyArray(prevGrid)
-                      newGrid[r]![c] = 1 - newGrid[r]![c]!
-                      return newGrid
-                    })
-                  }}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </DraggableZoomable>
-    </div>
+    <DraggableZoomable>
+      <div className="flex flex-col gap-1">
+        {grid.map((row, r) => (
+          <div className="flex gap-1" key={r}>
+            {row.map((cell, c) => (
+              <div
+                key={c}
+                className={cn("h-6 w-6 border bg-gray-50", {
+                  "bg-gray-400": cell === 1,
+                })}
+                onClick={() => {
+                  setGrid((prevGrid) => {
+                    const newGrid = copyArray(prevGrid)
+                    newGrid[r]![c] = 1 - newGrid[r]![c]!
+                    return newGrid
+                  })
+                }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </DraggableZoomable>
   )
 }
 
@@ -65,6 +55,8 @@ function copyArray(arr: number[][]) {
 
 function nextGridState(grid: number[][]) {
   const newGrid = copyArray(grid)
+  const nRows = grid.length
+  const nCols = grid[0]!.length
   for (let r = 0; r < nRows; r++) {
     for (let c = 0; c < nCols; c++) {
       const count = [

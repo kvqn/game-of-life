@@ -9,6 +9,14 @@ import {
   useRef,
 } from "react"
 
+const nRows = 100
+const nCols = 100
+
+export function blankGrid() {
+  const grid = new Array(nRows).fill(new Array(nCols).fill(0)) as number[][]
+  return grid
+}
+
 const GameContext = createContext<{
   showHelp: boolean
   setShowHelp: Dispatch<SetStateAction<boolean>>
@@ -17,6 +25,13 @@ const GameContext = createContext<{
   setPlaybackState: Dispatch<SetStateAction<boolean>>
   generation: number
   setGeneration: Dispatch<SetStateAction<number>>
+  scale: number
+  setScale: Dispatch<SetStateAction<number>>
+  grid: number[][]
+  setGrid: Dispatch<SetStateAction<number[][]>>
+  offset: { x: number; y: number }
+  setOffset: Dispatch<SetStateAction<{ x: number; y: number }>>
+  generationGap: React.MutableRefObject<number>
 } | null>(null)
 
 export function useGameContext() {
@@ -36,6 +51,10 @@ export function GameContextProvider({
   const playbackRef = useRef(false)
   const [playbackState, setPlaybackState] = useState(playbackRef.current)
   const [generation, setGeneration] = useState(0)
+  const [scale, setScale] = useState(1)
+  const [grid, setGrid] = useState<number[][]>(blankGrid())
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const generationGap = useRef(1000)
 
   return (
     <div
@@ -60,6 +79,13 @@ export function GameContextProvider({
           setPlaybackState,
           generation,
           setGeneration,
+          scale,
+          setScale,
+          grid,
+          setGrid,
+          offset,
+          setOffset,
+          generationGap,
         }}
       >
         {children}
