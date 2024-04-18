@@ -1,41 +1,18 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { Generation } from "~/components/Generation"
 import { Grid } from "~/components/Grid"
 import { Help } from "~/components/Help"
-import { GameContext } from "~/contexts/gameContext"
+import { GameContextProvider } from "~/contexts/gameContext"
 
 export default function HomePage() {
-  const [showHelp, setShowHelp] = useState(false)
-  const playbackRef = useRef(false)
-  const [playbackState, setPlaybackState] = useState(playbackRef.current)
-
   return (
-    <div
-      onKeyDown={(e) => {
-        if (e.key === "?") {
-          console.log("toggle help")
-          setShowHelp((prev) => !prev)
-        }
-        if (e.key === " ") {
-          playbackRef.current = !playbackRef.current
-          setPlaybackState(playbackRef.current)
-        }
-      }}
-      tabIndex={0}
-    >
-      <GameContext.Provider
-        value={{
-          showHelp,
-          setShowHelp,
-          playbackRef,
-          playbackState,
-          setPlaybackState,
-        }}
-      >
+    <div>
+      <GameContextProvider>
         <Grid />
         <Help />
-      </GameContext.Provider>
+        <Generation />
+      </GameContextProvider>
     </div>
   )
 }

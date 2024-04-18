@@ -14,12 +14,17 @@ export function Grid() {
 
   const { playbackRef } = useGameContext()
 
+  const { setGeneration } = useGameContext()
+
   useEffect(() => {
     console.log("test")
     async function loop() {
       while (true) {
         await sleep(1000)
-        if (playbackRef.current) setGrid((prev) => nextGridState(prev))
+        if (playbackRef.current) {
+          setGrid((prev) => nextGridState(prev))
+          setGeneration((prev) => prev + 1)
+        }
       }
     }
     void loop()
