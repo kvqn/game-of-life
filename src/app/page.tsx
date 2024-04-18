@@ -2,7 +2,8 @@
 
 import { Generation } from "~/components/Generation"
 import { Grid } from "~/components/Grid"
-import { Help } from "~/components/Help"
+import { Help, PlaybackStatus } from "~/components/Help"
+import { Settings } from "~/components/Settings"
 import { GameContextProvider } from "~/contexts/gameContext"
 
 export default function HomePage() {
@@ -10,8 +11,10 @@ export default function HomePage() {
     <div>
       <GameContextProvider>
         <Grid />
-        <Help />
+        {/* <Help /> */}
         <Generation />
+        <Settings />
+        <PlaybackStatus />
       </GameContextProvider>
     </div>
   )

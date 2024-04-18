@@ -67,7 +67,7 @@ export function Help() {
   )
 }
 
-function PlaybackStatus() {
+export function PlaybackStatus() {
   const { playbackState, setPlaybackState, playbackRef } = useGameContext()
 
   return (
@@ -82,7 +82,7 @@ function PlaybackStatus() {
         </p>
         <div
           className={cn(
-            "rounded-md border border-black bg-gray-100 p-2 text-xl shadow-md transition-colors hover:bg-gray-200",
+            "flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-xl shadow-md transition-colors hover:bg-gray-200",
           )}
           onClick={() => {
             setPlaybackState(!playbackState)
