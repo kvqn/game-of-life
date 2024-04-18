@@ -1,96 +1,63 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { cn } from "~/lib/utils"
+import {
+  useContext,
+  createContext,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react"
+import { Grid } from "~/components/Grid"
+import { Help } from "~/components/Help"
 
-function copyArray(arr: number[][]) {
-  return arr.map((row) => row.slice())
+const gameContext = createContext<{
+  showHelp: boolean
+  setShowHelp: Dispatch<SetStateAction<boolean>>
+  playbackRef: React.MutableRefObject<boolean>
+  playbackState: boolean
+  setPlaybackState: Dispatch<SetStateAction<boolean>>
+} | null>(null)
+
+export function useGameContext() {
+  const context = useContext(gameContext)
+  if (!context) {
+    throw new Error("useGameContext must be used within a GameProvider")
+  }
+  return context
 }
+
 export default function HomePage() {
-  const nRows = 100
-  const nCols = 100
-  const [grid, setGrid] = useState<number[][]>(
-    new Array(nRows).fill(new Array(nCols).fill(0)),
-  )
-
-  const [xOffset, setXOffset] = useState(0)
-  const [yOffset, setYOffset] = useState(0)
-  const draggingData = useRef({
-    dragging: false,
-    startClientX: 0,
-    startClientY: 0,
-    startOffsetX: 0,
-    startOffsetY: 0,
-  })
-
-  const [transformOrigin, setTransformOrigin] = useState([0, 0])
-
-  const [scale, setScale] = useState(1)
+  const [showHelp, setShowHelp] = useState(false)
+  const playbackRef = useRef(false)
+  const [playbackState, setPlaybackState] = useState(playbackRef.current)
 
   return (
-    <div>
-      <div
-        className="fixed flex flex-col gap-1 transition-all duration-200"
-        onMouseDown={(e) => {
-          console.log("drag start")
-          draggingData.current = {
-            dragging: true,
-            startClientX: e.clientX,
-            startClientY: e.clientY,
-            startOffsetX: xOffset,
-            startOffsetY: yOffset,
-          }
-        }}
-        onMouseUp={(e) => {
-          draggingData.current.dragging = false
-        }}
-        onMouseMove={(e) => {
-          if (draggingData.current.dragging) {
-            setXOffset(
-              draggingData.current.startOffsetX +
-                e.clientX -
-                draggingData.current.startClientX,
-            )
-            setYOffset(
-              draggingData.current.startOffsetY +
-                e.clientY -
-                draggingData.current.startClientY,
-            )
-            console.log(xOffset, yOffset)
-          }
-        }}
-        style={{
-          top: yOffset,
-          left: xOffset,
-          scale: scale,
-          transformOrigin: `${transformOrigin[0]}px ${transformOrigin[1]}px`,
-        }}
-        onWheel={(e) => {
-          console.log(e.deltaY)
-          setScale((prevScale) => prevScale - e.deltaY / 1000)
-          setTransformOrigin([e.clientX, e.clientY])
+    <div
+      onKeyDown={(e) => {
+        if (e.key === "?") {
+          console.log("toggle help")
+          setShowHelp((prev) => !prev)
+        }
+        if (e.key === " ") {
+          playbackRef.current = !playbackRef.current
+          setPlaybackState(playbackRef.current)
+        }
+      }}
+      tabIndex={0}
+    >
+      <gameContext.Provider
+        value={{
+          showHelp,
+          setShowHelp,
+          playbackRef,
+          playbackState,
+          setPlaybackState,
         }}
       >
-        {grid.map((row, r) => (
-          <div className="flex gap-1" key={r}>
-            {row.map((cell, c) => (
-              <div
-                key={c}
-                className={cn("h-6 w-6 border bg-gray-50", {
-                  "bg-gray-400": cell === 1,
-                })}
-                onClick={() => {
-                  setGrid((prevGrid) => {
-                    const newGrid = copyArray(prevGrid)
-                    newGrid[r]![c] = 1 - newGrid[r]![c]!
-                    return newGrid
-                  })
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+        <Grid />
+        <Help />
+      </gameContext.Provider>
     </div>
   )
 }
