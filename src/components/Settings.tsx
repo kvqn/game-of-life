@@ -23,6 +23,7 @@ export function Settings() {
     playbackRef.current = false
     setPlaybackState(false)
     setGrid(blankGrid())
+    setGeneration(0)
     backToDefaults()
   }
 

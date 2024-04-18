@@ -2,7 +2,7 @@
 
 import { Generation } from "~/components/Generation"
 import { Grid } from "~/components/Grid"
-import { Help, PlaybackStatus } from "~/components/Help"
+import { PlaybackStatus } from "~/components/PlaybackStatus"
 import { Settings } from "~/components/Settings"
 import { GameContextProvider } from "~/contexts/gameContext"
 
