@@ -1,31 +1,9 @@
 "use client"
 
-import {
-  useContext,
-  createContext,
-  useRef,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react"
+import { useRef, useState } from "react"
 import { Grid } from "~/components/Grid"
 import { Help } from "~/components/Help"
-
-const gameContext = createContext<{
-  showHelp: boolean
-  setShowHelp: Dispatch<SetStateAction<boolean>>
-  playbackRef: React.MutableRefObject<boolean>
-  playbackState: boolean
-  setPlaybackState: Dispatch<SetStateAction<boolean>>
-} | null>(null)
-
-export function useGameContext() {
-  const context = useContext(gameContext)
-  if (!context) {
-    throw new Error("useGameContext must be used within a GameProvider")
-  }
-  return context
-}
+import { GameContext } from "~/contexts/gameContext"
 
 export default function HomePage() {
   const [showHelp, setShowHelp] = useState(false)
@@ -46,7 +24,7 @@ export default function HomePage() {
       }}
       tabIndex={0}
     >
-      <gameContext.Provider
+      <GameContext.Provider
         value={{
           showHelp,
           setShowHelp,
@@ -57,7 +35,7 @@ export default function HomePage() {
       >
         <Grid />
         <Help />
-      </gameContext.Provider>
+      </GameContext.Provider>
     </div>
   )
 }

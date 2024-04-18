@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import { useGameContext } from "~/app/page"
+import { useGameContext } from "~/contexts/gameContext"
 import { cn, sleep } from "~/lib/utils"
 
 const nRows = 100

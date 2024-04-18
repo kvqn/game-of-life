@@ -3,8 +3,7 @@
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
-import { useEffect, useState } from "react"
-import { useGameContext } from "~/app/page"
+import { useGameContext } from "~/contexts/gameContext"
 import { keys } from "~/lib/assets"
 
 function Keybinds() {
