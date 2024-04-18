@@ -1,8 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import { BiPause } from "react-icons/bi"
-import { FaPlay } from "react-icons/fa"
 import { IoPause, IoPlay } from "react-icons/io5"
 import { useGameContext } from "~/contexts/gameContext"
 import { keys } from "~/lib/assets"

@@ -12,17 +12,17 @@ export function Grid() {
     new Array(nRows).fill(new Array(nCols).fill(0)),
   )
 
-  const { setShowHelp, playbackRef } = useGameContext()
+  const { playbackRef } = useGameContext()
 
   useEffect(() => {
-    void (async () => {
+    console.log("test")
+    async function loop() {
       while (true) {
-        await sleep(200)
-        if (playbackRef.current) {
-          setGrid((prev) => nextGridState(prev))
-        }
+        await sleep(1000)
+        if (playbackRef.current) setGrid((prev) => nextGridState(prev))
       }
-    })()
+    }
+    void loop()
   }, [])
 
   return (
