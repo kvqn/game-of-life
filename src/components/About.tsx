@@ -4,7 +4,10 @@ import { FaQuestion } from "react-icons/fa"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { useState } from "react"
 import { cn } from "~/lib/utils"
-import AboutTheGame from "~/markdown/about-the-game.mdx"
+import AboutTheGameMarkdown from "~/markdown/about-the-game.mdx"
+import HowToPlayMarkdown from "~/markdown/how-to-play.mdx"
+import Link from "next/link"
+import { isMobile } from "react-device-detect"
 
 export function About() {
   const [tab, setTab] = useState<0 | 1>(0)
@@ -42,17 +45,80 @@ export function About() {
               {"How to Play"}
             </h2>
           </div>
-          {tab === 0 ? <AboutTheGame /> : <HowToPlay />}
+          {tab === 0 ? <AboutTheGame setTab={setTab} /> : <HowToPlay />}
         </div>
       </DialogContent>
     </Dialog>
   )
 }
 
-function AboutGame() {
-  return <div></div>
+function AboutTheGame({ setTab }: { setTab: (tab: 0 | 1) => void }) {
+  return (
+    <>
+      <AboutTheGameMarkdown />
+      <div className="mt-4 flex justify-around">
+        <Link
+          href="/learn-more"
+          className="rounded-md border border-gray-300 bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-300"
+        >
+          Learn More
+        </Link>
+        <div
+          className="cursor-pointer rounded-md border border-gray-300 bg-gray-100 px-4 py-2 transition-colors hover:bg-gray-300"
+          onClick={() => setTab(1)}
+        >
+          How to Play
+        </div>
+      </div>
+    </>
+  )
+}
+
+function Keybinds() {
+  return (
+    <div className="flex flex-col divide-y border">
+      <div className="flex divide-x">
+        <div className="flex w-1/2 items-center justify-center">
+          <p className="rounded-md border border-gray-400 bg-gray-200 px-2">
+            {isMobile ? "Tap" : "Left Click"}
+          </p>
+        </div>
+        <div className="w-1/2 p-2 text-center">Toggle Cell State</div>
+      </div>
+      <div className="flex divide-x">
+        <div className="flex w-1/2 items-center justify-center">
+          <p className="rounded-md border border-gray-400 bg-gray-200 px-2">
+            {isMobile ? "Pinch" : "Mouse Wheel"}
+          </p>
+        </div>
+        <div className="w-1/2 p-2 text-center">Adjust Zoom</div>
+      </div>
+      <div className="flex divide-x">
+        <div className="flex w-1/2 items-center justify-center gap-2">
+          {isMobile ? null : (
+            <>
+              <p className="rounded-md border border-gray-400 bg-gray-200 px-2">
+                Spacebar
+              </p>
+              /
+            </>
+          )}
+
+          <p className="rounded-md border border-gray-400 bg-gray-200 px-2">
+            Playback Button
+          </p>
+        </div>
+        <div className="w-1/2 p-2 text-center">Toggle Playback</div>
+      </div>
+    </div>
+  )
 }
 
 function HowToPlay() {
-  return <div>How to play</div>
+  return (
+    <div>
+      <h2 className="pb-4 text-center text-xl font-bold">Keybinds</h2>
+      <Keybinds />
+    </div>
+  )
 }
