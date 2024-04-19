@@ -1,5 +1,6 @@
 "use client"
 
+import { About } from "~/components/About"
 import { Generation } from "~/components/Generation"
 import { Grid } from "~/components/Grid"
 import { PlaybackStatus } from "~/components/PlaybackStatus"
@@ -15,6 +16,7 @@ export default function HomePage() {
         <Generation />
         <Settings />
         <PlaybackStatus />
+        <About />
       </GameContextProvider>
     </div>
   )
