@@ -4,6 +4,7 @@ import { FaQuestion } from "react-icons/fa"
 import { Dialog } from "./ui/Dialog"
 import { useState } from "react"
 import { cn } from "~/lib/utils"
+import AboutTheGame from "~/markdown/about-the-game.mdx"
 
 export function About() {
   const [tab, setTab] = useState<0 | 1>(0)
@@ -41,7 +42,7 @@ export function About() {
               {"How to Play"}
             </h2>
           </div>
-          {tab === 0 ? <AboutGame /> : <HowToPlay />}
+          {tab === 0 ? <AboutTheGame /> : <HowToPlay />}
         </div>
       }
     />
@@ -49,7 +50,7 @@ export function About() {
 }
 
 function AboutGame() {
-  return <div>About Game of life</div>
+  return <div></div>
 }
 
 function HowToPlay() {
