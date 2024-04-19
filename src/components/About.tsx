@@ -1,7 +1,7 @@
 "use client"
 
 import { FaQuestion } from "react-icons/fa"
-import { Dialog } from "./ui/Dialog"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { useState } from "react"
 import { cn } from "~/lib/utils"
 import AboutTheGame from "~/markdown/about-the-game.mdx"
@@ -9,13 +9,13 @@ import AboutTheGame from "~/markdown/about-the-game.mdx"
 export function About() {
   const [tab, setTab] = useState<0 | 1>(0)
   return (
-    <Dialog
-      trigger={
+    <Dialog>
+      <DialogTrigger>
         <div className="fixed right-2 top-2 cursor-pointer rounded-md border border-gray-300 bg-gray-100 p-2 text-xl shadow-md transition-colors hover:bg-gray-200">
           <FaQuestion />
         </div>
-      }
-      content={
+      </DialogTrigger>
+      <DialogContent className="max-w-[600px]">
         <div className="flex flex-col gap-4">
           <h1 className="text-center text-2xl font-bold">About</h1>
           <div className="flex justify-evenly border-b">
@@ -44,8 +44,8 @@ export function About() {
           </div>
           {tab === 0 ? <AboutTheGame /> : <HowToPlay />}
         </div>
-      }
-    />
+      </DialogContent>
+    </Dialog>
   )
 }
 
