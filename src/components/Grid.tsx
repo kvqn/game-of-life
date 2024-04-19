@@ -30,8 +30,8 @@ export function Grid() {
             {row.map((cell, c) => (
               <div
                 key={c}
-                className={cn("h-6 w-6 border bg-gray-50", {
-                  "bg-gray-400": cell === 1,
+                className={cn("h-6 w-6 border bg-zinc-50 hover:bg-zinc-200", {
+                  "bg-zinc-500 hover:border-zinc-500": cell === 1,
                 })}
                 onClick={() => {
                   setGrid((prevGrid) => {

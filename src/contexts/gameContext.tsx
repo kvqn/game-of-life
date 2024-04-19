@@ -54,7 +54,7 @@ export function GameContextProvider({
   const [scale, setScale] = useState(1)
   const [grid, setGrid] = useState<number[][]>(blankGrid())
   const [offset, setOffset] = useState({ x: 0, y: 0 })
-  const generationGap = useRef(1000)
+  const generationGap = useRef(250)
 
   return (
     <div
@@ -69,6 +69,7 @@ export function GameContextProvider({
         }
       }}
       tabIndex={0}
+      className="focus:outline-none"
     >
       <GameContext.Provider
         value={{

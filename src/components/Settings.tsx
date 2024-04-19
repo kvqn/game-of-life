@@ -28,7 +28,7 @@ export function Settings() {
 
   function backToDefaults() {
     setScale(1)
-    setGenerationGapState(1000)
+    setGenerationGapState(250)
     setOffset({ x: 0, y: 0 })
   }
 
@@ -36,7 +36,7 @@ export function Settings() {
     setOffset({ x: 0, y: 0 })
   }
 
-  const [generationGapState, setGenerationGapState] = useState(1000)
+  const [generationGapState, setGenerationGapState] = useState(250)
 
   useEffect(() => {
     generationGap.current = generationGapState
@@ -78,7 +78,7 @@ export function Settings() {
             <div className="flex gap-2">
               <Slider
                 value={[generationGapState]}
-                defaultValue={[1000]}
+                defaultValue={[250]}
                 min={100}
                 max={5000}
                 step={10}

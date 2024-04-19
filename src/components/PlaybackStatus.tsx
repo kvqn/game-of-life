@@ -9,7 +9,13 @@ export function PlaybackStatus() {
 
   return (
     <>
-      <div className="fixed bottom-2 right-2 flex cursor-pointer items-center gap-2 divide-x divide-gray-300 rounded-md border border-gray-300 bg-gray-100 text-xl shadow-md transition-colors hover:bg-gray-200">
+      <div
+        className="fixed bottom-2 right-2 flex cursor-pointer items-center gap-2 divide-x divide-gray-300 rounded-md border border-gray-300 bg-gray-100 text-xl shadow-md transition-colors hover:bg-gray-200"
+        onClick={() => {
+          setPlaybackState(!playbackState)
+          playbackRef.current = !playbackState
+        }}
+      >
         {!playbackState && (
           <div
             className={"flex h-full w-auto items-center justify-center pl-2"}
@@ -17,13 +23,7 @@ export function PlaybackStatus() {
             Paused
           </div>
         )}
-        <div
-          className={"flex h-10 w-10 items-center justify-center"}
-          onClick={() => {
-            setPlaybackState(!playbackState)
-            playbackRef.current = !playbackState
-          }}
-        >
+        <div className={"flex h-10 w-10 items-center justify-center"}>
           {playbackState ? <IoPlay /> : <IoPause />}
         </div>
       </div>
