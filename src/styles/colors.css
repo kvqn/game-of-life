@@ -1,0 +1,23 @@
+
+
+[data-theme="gray"] {
+    --color-cell-dead: #f5f5f5;
+    --color-cell-live: #404040;
+    --color-cell-hover: #a3a3a3;
+    --color-cell-live-border: #0a0a0a;
+}
+
+[data-theme="red"] {
+    --color-cell-dead: #fef2f2;
+    --color-cell-hover: #f87171;
+    --color-cell-live: #b91c1c;
+    --color-cell-live-border: #450a0a;
+}
+
+
+[data-theme="green"] {
+    --color-cell-dead: #f0fdf4;
+    --color-cell-hover: #4ade80;
+    --color-cell-live: #15803d;
+    --color-cell-live-border: #052e16;
+}

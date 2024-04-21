@@ -18,6 +18,12 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        "cell-dead": "var(--color-cell-dead)",
+        "cell-live": "var(--color-cell-live)",
+        "cell-hover": "var(--color-cell-hover)",
+        "cell-live-border": "var(--color-cell-live-border)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

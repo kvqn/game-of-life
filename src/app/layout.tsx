@@ -1,4 +1,5 @@
 import "~/styles/globals.css"
+import "~/styles/colors.css"
 
 import { Inter } from "next/font/google"
 import { GeistSans } from "geist/font/sans"
